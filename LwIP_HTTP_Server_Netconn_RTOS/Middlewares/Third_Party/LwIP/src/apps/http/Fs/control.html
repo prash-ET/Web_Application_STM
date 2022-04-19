@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>DC Power Source</title>
+    <link rel="stylesheet" href="css/layout.min.css">
+    <link rel="stylesheet" href="css/components.min.css">
+    <link rel="stylesheet" href="css/style.min.css">
+</head>
+<body>
+	<div class="window">
+        <img src="resources/header01.jpg" style="height: 180px;" width="100%" alt="Logo not available">
+        <div class="header-buttons column is-full is-hidden-touch">
+        <div class="buttons">
+            <a href="index.html" class="button is-info is-inverted">Index</a>
+            <a href="control.html" class="button is-info is-active">Control</a>
+            <a href="webconfig.html" class="button is-info is-inverted">Webconfig</a>
+            <a href="display.html" class="button is-info is-inverted">Display</a>
+		</div>
+    </div>
+
+    <div class="buttons text-center is-hidden-desktop">
+        <a href="index.html" class="button is-info is-inverted">Index</a>
+        <a href="control.html" class="button is-info is-active">Control</a>
+        <a href="webconfig.html" class="button is-info is-inverted">Webconfig</a>
+        <a href="display.html" class="button is-info is-inverted">Display</a>
+    </div>
+
+
+    <div id="errorMessage" class="notification is-danger">
+        Some error message
+    </div>
+    <div class="columns is-multiline is-same-height is-tablet">
+
+
+        <div class="column is-12">
+            <!-- ########## Control 2 ########## -->
+            <div class="card" data-panel="control">
+                <header class="card-header">
+                    <p class="card-header-title">
+                        Control
+                    </p>
+                </header>
+                <div class="card-content">
+                    <div class="columns is-multiline is-mobile">
+                        <div class="column is-6-mobile is-3-tablet ">
+                            Mode:
+                        </div>
+                        <div class="column is-6-mobile is-3-tablet ">
+                            <div class="select">
+                                <select id = "mSelect" class="modeInput" pv-remote="controlController.mode">
+                                    <option value="ui">UI</option>
+                                    <option value="uip">UIP</option>
+                                    <option value="uir">UIR</option>
+                                    <option value="pvsim">PVsim</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="column is-3-tablet is-half-mobile text-center">
+                            <button id="statusBtn" type="button" class="button is-info"
+                                    onclick="controlController.toggleStatus()">Run
+                            </button>
+                        </div>
+                        <div class="column is-3-tablet is-half-mobile text-center">
+                            <button id="controlBtn" type="button" class="button is-info"
+                                    onclick="controlController.toggleControl()">Local
+                            </button>
+                        </div>
+                        <div class="column is-1-tablet is-half-mobile has-text-centered">
+                            Status:
+                        </div>
+                        <div class="column is-3-tablet is-half-mobile" id = "curr_stat">
+                            Run
+                        </div>
+                        <div class="column is-1-tablet is-half-mobile has-text-centered">
+                            Control:
+                        </div>
+                        <div class="column is-3-tablet is-half-mobile" id = "curr_ctrl">
+                            remote
+                        </div>
+                        <div class="column is-1-tablet is-half-mobile has-text-centered">
+                            Limit:
+                        </div>
+                        <div class="column is-3-tablet is-half-mobile" id = "curr_lim">
+                            V
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- ########## Control 2 ########## -->
+        </div>
+
+        <div class="column is-6">
+            <!-- ########## SET ########## -->
+            <div class="card" data-panel="set">
+                <header class="card-header">
+                    <p class="card-header-title">
+                        Set
+                    </p>
+                </header>
+                <div class="card-content">
+                    <div id="uRow" class="columns is-mobile">
+                        <div class="column is-2">
+                            U
+                        </div>
+                        <div class="column is-5">
+                            <input type="range" max="1000" step="0.1" class="fit uInput" id="uRange"
+                                   onchange="setController.changeProperty('u',this.value)">
+                        </div>
+                        <div class="column is-4">
+                            <input type="number" max="1000" step="0.1" class="input uInput"
+                                   onchange="setController.changeProperty('u',this.value)">
+                        </div>
+                        <div class="column is-2">
+                            V
+                        </div>
+                    </div>
+
+                    <div id="iRow" class="columns is-mobile">
+                        <div class="column is-2">
+                            I
+                        </div>
+                        <div class="column is-5">
+                            <input type="range" min="0" max="100" step="0.01" class="fit iInput" id="iRange"
+                                   onchange="setController.changeProperty('i',this.value)">
+                        </div>
+                        <div class="column is-4">
+                            <input type="number" min="0" max="100" step="0.01" class="input iInput"
+                                   onchange="setController.changeProperty('i',this.value)">
+                        </div>
+                        <div class="column is-2">
+                            A
+                        </div>
+                    </div>
+
+                    <div id="pRow" class="columns is-mobile" pv-if="controlController.mode === 'uip'">
+                        <div class="column is-2">
+                            P
+                        </div>
+                        <div class="column is-5">
+                            <input type="range" max = "1000" class="fit pInput"  id="pRange"
+                                   onchange="setController.changeProperty('p',this.value)">
+                        </div>
+                        <div class="column is-4">
+                            <input type="number" max = "1000" class="input pInput"
+                                   onchange="setController.changeProperty('p',this.value)">
+                        </div>
+                        <div class="column is-2">
+                            W
+                        </div>
+                    </div>
+
+                    <div id="rRow" class="columns is-mobile" pv-if="controlController.mode === 'uir'">
+                        <div class="column is-2">
+                            R
+                        </div>
+                        <div class="column is-5">
+                            <input type="range" max = "100" step="0.001" class="fit rInput" id="rRange"
+                                   onchange="setController.changeProperty('r',this.value)">
+                        </div>
+                        <div class="column is-4">
+                            <input type="number" max = "100" step="0.001" class="input rInput"
+                                   onchange="setController.changeProperty('r',this.value)">
+                        </div>
+                        <div class="column is-2">
+                            Ohm
+                        </div>
+                    </div>
+
+                    <div id="umppRow" class="columns is-mobile " pv-if="controlController.mode === 'pvsim'">
+                        <div class="column is-2">
+                            Umpp
+                        </div>
+                        <div class="column is-5">
+                            <input type="range" max="1000" step="0.1" class="fit umppInput"  id="umppRange"
+                                   onchange="setController.changeProperty('umpp',this.value)">
+                        </div>
+                        <div class="column is-4">
+                            <input type="number" max="1000" step="0.1" class="input umppInput"
+                                   onchange="setController.changeProperty('umpp',this.value)">
+                        </div>
+                        <div class="column is-2">
+                            V
+                        </div>
+                    </div>
+
+                    <div id="imppRow" class="columns is-mobile" pv-if="controlController.mode === 'pvsim'">
+                        <div class="column is-2">
+                            Impp
+                        </div>
+                        <div class="column is-5">
+                            <input type="range" max="100" step="0.01" class="fit imppInput" id="imppRange"
+                                   onchange="setController.changeProperty('impp',this.value)">
+                        </div>
+                        <div class="column is-4">
+                            <input type="number" max="100" step="0.01" class="input imppInput"
+                                   onchange="setController.changeProperty('impp',this.value)">
+                        </div>
+                        <div class="column is-2">
+                            A
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- ########## SET ########## -->
+        </div>
+
+        <div class="column is-6">
+            <!-- DATA START -->
+            <!-- <div class="card" data-panel="data"> -->
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">
+                        Data
+                    </p>
+                </header>
+                <div class="card-content">
+                    <div class="columns is-multiline">
+                        <div class="column is-12">
+                            <table class="table is-striped is-bordered is-narrow is-fullwidth">
+                                <tr>
+                                    <td>U</td>
+                                    <td id="ucText">0.0</td>
+                                    <td>V</td>
+                                </tr>
+                                <tr>
+                                    <td>I</td>
+                                    <td id="icText">0.0</td>
+                                    <td>A</td>
+                                </tr>
+                                <tr>
+                                    <td>P</td>
+                                    <td id="pcText">0.0</td>
+                                    <td>W</td>
+                                </tr>
+                                <tr>
+                                    <td>R</td>
+                                    <td id="rcText">0.0</td>
+                                    <td>Ohm</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- DATA END -->
+        </div>
+
+
+    </div>
+</div>
+<!-- <script src="../js/core/xpwLib.js"></script> -->
+<!-- <script src="../js/core/config.js" charset="utf-8"></script> -->
+<!-- <script src="../js/core/PVFramework.js" charset="utf-8"></script> -->
+<!-- <script src="../js/core/scheduler.js" charset="utf-8"></script> -->
+<!-- <script src="../js/core/Store.js" charset="utf-8"></script> -->
+<!-- <script src="../js/core/ajax.js"></script> -->
+<!-- <script src="../js/core/backend.js"></script> -->
+<!-- <script src="../js/core/ErrorHandler.js"></script> -->
+<!-- <script src="../js/core/functionTest.js" charset="utf-8"></script> -->
+<!-- <script src="../js/controller/AccessController.js" charset="utf-8"></script> -->
+<!-- <script src="../js/controller/SetController.js" charset="utf-8"></script> -->
+<!-- <script src="../js/controller/FrequencyController.js" charset="utf-8"></script> -->
+<!-- <script src="../js/controller/ControlController.js" charset="utf-8"></script> -->
+<!-- <script src="../js/controller/DisplayDataController.js" charset="utf-8"></script> -->
+<!-- <script src="../js/controller/PhaseController.js" charset="utf-8"></script> -->
+</body>
+</html>

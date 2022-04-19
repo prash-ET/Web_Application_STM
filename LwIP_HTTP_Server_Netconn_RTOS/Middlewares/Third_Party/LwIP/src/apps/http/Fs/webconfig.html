@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>DC Power Source</title>
+    <link rel="stylesheet" href="css/layout.min.css">
+    <link rel="stylesheet" href="css/components.min.css">
+    <link rel="stylesheet" href="css/style.min.css">
+</head>
+
+<body>
+    <div class="window">
+        <img src="resources/header01.jpg" style="height: 180px;" width="100%" alt="Logo not available">
+        <div class="header-buttons column is-full is-hidden-touch">
+            <div class="buttons">
+                <a href="index.html" class="button is-info is-inverted">Index</a>
+                <a href="control.html" class="button is-info is-inverted">Control</a>
+                <a href="webconfig.html" class="button is-info is-active">Webconfig</a>
+                <a href="display.html" class="button is-info is-inverted">Display</a>
+            </div>
+        </div>
+
+        <div class="buttons text-center is-hidden-desktop">
+            <a href="index.html" class="button is-info is-inverted">Index</a>
+            <a href="control.html" class="button is-info is-inverted">Control</a>
+            <a href="webconfig.html" class="button is-info is-active">Webconfig</a>
+            <a href="display.html" class="button is-info is-inverted">Display</a>
+        </div>
+
+        <div id="errorMessage" class="notification is-danger">
+            PT: Some error message.
+        </div>
+
+        <div class="columns is-tablet is-multiline is-same-height">
+            <div class="column">
+                <!-- ########## Control ########## -->
+                <div class="card" data-panel="config">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            Config
+                        </p>
+                    </header>
+                    <div class="card-content">
+                        <form id="configForm" action="/changeconfig" method="post">
+                            <div class="field is-horizontal">
+                                <div id="bla" class="field-label is-normal">
+                                    <label class="label">MAC:</label>
+                                </div>
+                                <div class="field-body">
+                                    <div class="field">
+                                        <div class="control is-expanded">
+                                            <input class="input macInput" pv-bind="configController.mac" name="mac"
+                                                disabled type="text" id="mac_addr" value="00-20-4a-93-27-51">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="field is-horizontal">
+                                <div class="field-label is-normal">
+                                    <label class="label">IP-Adress:</label>
+                                </div>
+                                <div class="field-body">
+                                    <div class="field" data-validate="IP">
+                                        <div class="control is-expanded">
+                                            <input class="input ipInput" pv-bind="configController.ip" name="ip"
+                                                type="text" id="ip_addr" placeholder="127.0.0.1">
+                                        </div>
+                                        <div class="error-message hidden">
+                                            Please provide valid input.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="field is-horizontal">
+                                <div class="field-label is-normal">
+                                    <label class="label">Gateway:</label>
+                                </div>
+                                <div class="field-body">
+                                    <div class="field" data-validate="IP">
+                                        <div class="control is-expanded">
+                                            <input class="input gatewayInput" pv-bind="configController.gateway"
+                                                name="gateway" type="text" id="gatewayID" placeholder="8.8.8.8">
+                                        </div>
+                                        <div class="error-message hidden">
+                                            Please provide valid input.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="columns">
+
+                                <div class="column is-6 text-center">
+                                    <label class="checkbox">
+                                        <input name="autoIP" pv-bind="configController.autoIP" id="dynamicIP" type="checkbox">
+                                        dynamic IP
+                                    </label>
+                                </div>
+                                <div class="column is-6 text-center">
+                                    <button type="button" class="button is-info fit"
+                                        onclick=configSubmit()>Assign</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- ########## Control ########## -->
+            </div>
+
+        </div>
+    </div>
+    <!-- <script src="../js/core/xpwLib.js"></script> -->
+    <!-- <script src="../js/core/config.js" charset="utf-8"></script> -->
+    <!-- <script src="../js/core/ErrorHandler.js" charset="utf-8"></script> -->
+    <!-- <script src="../js/core/validator.js" charset="utf-8"></script> -->
+    <!-- <script src="../js/core/PVFramework.js" charset="utf-8"></script> -->
+    <!-- <script src="../js/core/ajax.js"></script> -->
+    <!-- <script src="../js/core/backend.js"></script> -->
+    <!-- <script src="../js/core/functionTest.js" charset="utf-8"></script> -->
+    <!-- <script src="../js/controller/AccessController.js" charset="utf-8"></script> -->
+    <!-- <script src="../js/controller/ConfigController.js" charset="utf-8"></script> -->
+
+</body>
+
+</html>
