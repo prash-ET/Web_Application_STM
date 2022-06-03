@@ -117,6 +117,8 @@
 /** Minimum length for a valid HTTP/0.9 request: "GET /\r\n" -> 7 bytes */
 #define MIN_REQ_LEN   7
 
+#define LWIP_HTTPD_SUPPORT_POST		1
+
 #define CRLF "\r\n"
 #if LWIP_HTTPD_SUPPORT_11_KEEPALIVE
 #define HTTP11_CONNECTIONKEEPALIVE  "Connection: keep-alive"
